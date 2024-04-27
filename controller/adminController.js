@@ -54,8 +54,12 @@ router.post("/login", async (req, res) => {
         expiresIn: "1d",
       }
     );
+
     res.cookie("AdminToken", token, {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
 
     res.status(200).json({ success: true, token });
@@ -133,9 +137,19 @@ router.get("/get-admin", isAuthenticatedAdmin, async (req, res) => {
   }
 });
 
-router.post("/logout", (req, res) => {
-  res.clearCookie("AdminToken");
-  res.send("Logged out successfully");
+router.post("/logout", (req, res, next) => {
+  try {
+    res.clearCookie("AdminToken", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Log out successful!",
+    });
+  } catch (error) {}
 });
 router.post("/change-password", isAuthenticatedAdmin, async (req, res) => {
   try {
