@@ -78,8 +78,10 @@ router.post(
         }
       );
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        httpOnly: true,
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Expires in 1 day
+        httpOnly: true, // Cookie accessible only through HTTP(S) requests
+        secure: false, // Set to false for local testing (not using HTTPS)
+        sameSite: "lax", // Set to lax for local testing
       });
 
       res.status(200).json({ success: true, token });
