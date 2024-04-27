@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const Admin = require("../model/admin");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const isAuthenticatedAdmin = require("../middleware/adminAuth");
 const { upload } = require("../multer");
 router.post("/create-admin", async (req, res) => {
