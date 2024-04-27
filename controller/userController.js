@@ -77,6 +77,7 @@ router.post(
           expiresIn: "1d",
         }
       );
+
       res.cookie("token", token, {
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
         httpOnly: true,
@@ -214,9 +215,17 @@ router.post(
   isAuthenticatedUser,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      res.clearCookie("token");
-      console.log("Token cleared");
-      res.status(200).json({ success: true, message: "Logout successful" });
+      // Clearing the token cookie
+      res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "Log out successful!",
+      });
     } catch (error) {
       next(new ErrorHander(error.message, 500));
     }
