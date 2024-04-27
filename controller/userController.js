@@ -79,6 +79,7 @@ router.post(
       );
       res.cookie("token", token, {
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        httpOnly: true,
       });
 
       res.status(200).json({ success: true, token });
