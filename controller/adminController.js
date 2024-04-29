@@ -5,6 +5,8 @@ const Admin = require("../model/admin");
 const jwt = require("jsonwebtoken");
 const isAuthenticatedAdmin = require("../middleware/adminAuth");
 const { upload } = require("../multer");
+const path = require("path");
+const fs = require("fs");
 router.post("/create-admin", async (req, res) => {
   try {
     const { email, password, phoneNumber, address, avatar } = req.body;
@@ -22,23 +24,20 @@ router.post("/create-admin", async (req, res) => {
 
     res.status(201).send("Account created successfully");
   } catch (error) {
-    res.status(500).send("Error creating account");
+    res.status(500).send(error.message);
   }
 });
 
 // Route for user login
 router.post("/login", async (req, res) => {
+  console.log("Hiitng");
   try {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
-
     if (!admin) {
       return res.status(404).send("Admin not found");
     }
-
-    // Check if the entered password matches the hashed password
     const isPasswordMatch = await admin.comparePassword(password);
-
     if (!isPasswordMatch) {
       return res.status(401).send("Invalid password");
     }
@@ -83,7 +82,7 @@ router.put(
 
       // Extract updated admin details from the request body
       const { name, email, phoneNumber, address } = req.body;
-      console.log("Name", name);
+
       // Update admin details
       admin.name = name || admin.name;
       admin.email = email || admin.email;
@@ -92,6 +91,7 @@ router.put(
 
       // Handle avatar update
       if (req.file) {
+        console.log("req.file", req.file);
         if (admin.avatar) {
           const previousAvatarPath = path.join(
             __dirname,
@@ -112,8 +112,8 @@ router.put(
         .json({ message: "Admin details updated successfully", admin });
     } catch (error) {
       // Handle errors
-      console.error("Error updating admin:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+
+      res.status(500).json({ message: error.message });
     }
   }
 );

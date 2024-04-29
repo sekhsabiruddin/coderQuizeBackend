@@ -12,6 +12,7 @@ const isAuthenticatedAdmin = async (req, res, next) => {
     }
 
     const decodedData = jwt.verify(AdminToken, process.env.JWT_SECRET);
+    console.log("decodedData", decodedData);
     req.Admin = await Admin.findById(decodedData.userId);
 
     if (!req.Admin) {
