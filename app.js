@@ -12,9 +12,16 @@ const Feedback = require("./controller/feedbackController");
 const Admin = require("./controller/adminController");
 const errorMiddleware = require("./middleware/error");
 // Middleware
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["https://code-quize-frontend-trkr.vercel.app"],
     credentials: true,
   })
 );
