@@ -11,7 +11,7 @@ const dbConnect = require("./db/db");
 const Feedback = require("./controller/feedbackController");
 const Admin = require("./controller/adminController");
 const errorMiddleware = require("./middleware/error");
-// Middleware
+//==========================FOR LOCAL TESTTING================
 // app.use(
 //   cors({
 //     origin: "http://localhost:5173",
@@ -26,11 +26,11 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(express.json({ limit: "50mb" })); // JSON parsing with limit
-app.use(express.urlencoded({ extended: true })); // Form data parsing
-app.use("/", express.static("uploads")); // Serving static files
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
+app.use("/", express.static("uploads"));
 
-// Routes
+// All the Routes
 app.use("/api/user", User);
 app.use("/api/question", Question);
 app.use("/api/result", Result);

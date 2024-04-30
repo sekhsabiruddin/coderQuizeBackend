@@ -4,7 +4,7 @@ const Result = require("../model/result");
 const isAuthenticatedUser = require("../middleware/auth");
 const ErrorHandler = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-
+//====================================CREATE RESULT START================================
 router.post(
   "/create-result",
   catchAsyncErrors(async (req, res, next) => {
@@ -19,7 +19,7 @@ router.post(
         unsolved,
         not_attend,
       });
-      console.log("Create result ", result);
+
       // Save the result to the database
       await result.save();
 
@@ -30,16 +30,17 @@ router.post(
     }
   })
 );
-
+//====================================CREATE RESULT END==================================
+//====================================GET THE  RESULT START==============================
 router.get(
   "/get-result",
   isAuthenticatedUser,
   catchAsyncErrors(async (req, res, next) => {
     try {
       const myUserId = req.user._id;
-      // console.log(" myUserId", myUserId);
+
       const results = await Result.find({ myUserId });
-      // console.log("results", results);
+
       res.status(200).json({ results });
     } catch (error) {
       console.error("Error getting result:", error);
@@ -47,5 +48,5 @@ router.get(
     }
   })
 );
-
+//====================================GET THE  RESULT END================================
 module.exports = router;

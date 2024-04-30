@@ -59,13 +59,13 @@ router.post(
       }
 
       const isPasswordMatched = await user.comparePassword(password);
-      console.log("isPasswordMatched", isPasswordMatched);
+
       if (!isPasswordMatched) {
         return res
           .status(401)
           .json({ success: false, message: "Invalid email or password" });
       }
-      console.log("Hi");
+
       // Generate JWT token
       const token = jwt.sign(
         {
