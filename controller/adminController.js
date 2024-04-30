@@ -119,7 +119,7 @@ router.put(
 );
 
 // Route for retrieving admin details
-router.get("/get-admin", async (req, res) => {
+router.get("/get-admin", isAuthenticatedAdmin, async (req, res) => {
   try {
     // Admin user information is stored in req.Admin by the isAuthenticatedAdmin middleware
     const admin = req.Admin;

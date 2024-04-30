@@ -95,7 +95,7 @@ router.post(
 //=======================Get User Start===============================
 router.get(
   "/getuser",
-
+  isAuthenticatedUser,
   catchAsyncErrors(async (req, res, next) => {
     try {
       const user = await User.findById(req.user.id);
