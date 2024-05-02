@@ -12,19 +12,19 @@ const Feedback = require("./controller/feedbackController");
 const Admin = require("./controller/adminController");
 const errorMiddleware = require("./middleware/error");
 //==========================FOR LOCAL TESTTING================
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
 // app.use(
 //   cors({
-//     origin: ["https://code-quize-frontend-trkr.vercel.app"],
+//     origin: "http://localhost:5173",
 //     credentials: true,
 //   })
 // );
+
+app.use(
+  cors({
+    origin: ["https://code-quize-frontend-trkr.vercel.app"],
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
