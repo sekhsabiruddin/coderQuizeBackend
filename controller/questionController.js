@@ -34,9 +34,8 @@ router.get("/get-random-question", async (req, res, next) => {
       randomQuestions = shuffleArray(allQuestions);
     } else {
       // If there are more than 16 questions, retrieve 16 random questions
-      const totalQuestions = allQuestions.length;
-      const skip = Math.floor(Math.random() * totalQuestions);
-      randomQuestions = await Question.find().skip(skip).limit(16);
+      const randomIndices = generateRandomIndices(allQuestions.length, 16);
+      randomQuestions = randomIndices.map((index) => allQuestions[index]);
     }
 
     res.json(randomQuestions);
@@ -55,7 +54,16 @@ function shuffleArray(array) {
   }
   return shuffledArray;
 }
-
+function generateRandomIndices(totalLength, count) {
+  const indices = [];
+  while (indices.length < count) {
+    const index = Math.floor(Math.random() * totalLength);
+    if (!indices.includes(index)) {
+      indices.push(index);
+    }
+  }
+  return indices;
+}
 //===========================ADD QUESTION START HERE==========================
 router.post("/add-question", async (req, res, next) => {
   const { question, options, answer, questiontype } = req.body;
