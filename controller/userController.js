@@ -51,7 +51,7 @@ router.post(
       }
 
       const user = await User.findOne({ email }).select("+password");
-      console.log("user", user);
+
       if (!user) {
         return res
           .status(401)

@@ -1,7 +1,7 @@
 const sendToken = (user, statusCode, res) => {
   const token = user.getJWTToken();
-  console.log("JWT token", token);
-  console.log("JWT token", process.env.JWT_SECRET);
+
+
   // options for cookie
   const options = {
     expires: new Date(
